@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نموذج حساب الحقوق والإجازات</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:#f3f6fa;color:#222;transition:.2s}
+  body.ltr{direction:ltr}body.rtl{direction:rtl}
+  .container{max-width:1100px;margin:20px auto;padding:16px}
+  h1{text-align:center;color:#123b63;margin-bottom:6px;font-size:1.55rem}
+  .subtitle{text-align:center;color:#555;margin-bottom:18px;font-size:.92rem}
+  .card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,.08);margin-bottom:18px}
+  .card h2{color:#123b63;font-size:1.05rem;margin-bottom:14px;border-bottom:2px solid #e3ecf5;padding-bottom:8px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  .field{display:flex;flex-direction:column;gap:5px}
+  label{font-size:.84rem;font-weight:700;color:#444}
+  input,select{padding:9px 11px;border:1.4px solid #cfd9e5;border-radius:8px;font-size:.95rem;background:#fbfdff}
+  input:focus,select:focus{outline:none;border-color:#1a6fc4;background:#fff}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+  .btn{padding:11px 24px;border:none;border-radius:8px;font-size:.98rem;font-weight:700;cursor:pointer}
+  .btn-primary{background:#1a6fc4;color:#fff}.btn-primary:hover{background:#155ea3}
+  .btn-success{background:#1a8c4e;color:#fff}.btn-success:hover{background:#167240}
+  .btn-print{background:#6d3cc5;color:#fff}.btn-print:hover{background:#5830a2}
+  .btn-domestic{background:#b85c00;color:#fff}.btn-domestic:hover{background:#8f4600}
+  .hint{font-size:.79rem;padding:7px 10px;border-radius:6px;margin-top:4px;font-weight:600;display:none}
+  .hint-blue{background:#e8f0fe;color:#1a3c8c;border:1px solid #9eb4f5}
+  .hint-orange{background:#fff4e5;color:#7a4a00;border:1px solid #f5c77e}
+  .results{background:#edf8ef;border:1.5px solid #8fceaa;border-radius:10px;padding:16px}
+  .results h3{color:#1a6035;margin-bottom:10px;font-size:1rem}
+  .result-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px dashed #b7dfc6;font-size:.92rem}
+  .result-row.total{font-weight:800;color:#123b63;font-size:1rem;border-top:2px solid #8fceaa;border-bottom:none;margin-top:6px;padding-top:10px}
+  .badge{display:inline-block;border-radius:6px;padding:4px 10px;font-size:.8rem;margin-top:10px}
+  .badge-green{background:#d4edda;color:#155724;border:1px solid #7ecf95}
+  .badge-blue{background:#e8f0fe;color:#1a3c8c;border:1px solid #9eb4f5}
+  .badge-orange{background:#fff4e5;color:#7a4a00;border:1px solid #f5c77e}
+  .badge-brown{background:#fdf0e0;color:#7a3800;border:1px solid #e0a060}
+  /* mode tabs */
+  .mode-tabs{display:flex;gap:0;border-radius:10px;overflow:hidden;border:2px solid #1a6fc4;margin-bottom:18px;width:fit-content;margin-left:auto;margin-right:auto}
+  .mode-tab{padding:10px 28px;font-size:.95rem;font-weight:700;cursor:pointer;border:none;background:#fff;color:#1a6fc4;transition:.15s}
+  .mode-tab.active{background:#1a6fc4;color:#fff}
+  .mode-tab:first-child{border-radius:8px 0 0 8px}
+  .mode-tab:last-child{border-radius:0 8px 8px 0}
+  /* domestic info box */
+  .info-box{background:#fdf4e7;border:1.5px solid #e0a060;border-radius:10px;padding:14px 16px;margin-bottom:14px;font-size:.88rem;line-height:1.7}
+  .info-box strong{color:#7a3800}
+  .info-box ul{margin-right:18px;margin-top:4px}
+  body.ltr .info-box ul{margin-left:18px;margin-right:0}
+  /* lang switch */
+  .lang-switch{display:flex;justify-content:flex-end;gap:8px;align-items:center;margin-bottom:14px}
+  body.ltr .lang-switch{justify-content:flex-start}
+  .dev-footer{text-align:center;padding:14px 0 18px;font-size:.78rem;color:#aab;letter-spacing:.3px;user-select:none}
+  .dev-footer strong{color:#1a6fc4}
+  /* letter */
+  #letterSection{display:none}
+  .letter-box{background:#fff;border:1.5px solid #123b63;border-radius:8px;padding:14mm 13mm;font-size:12px;line-height:1.6;width:100%}
+  .letter-header{display:grid;grid-template-columns:32mm 1fr 42mm;align-items:center;gap:8px;margin-bottom:10px}
+  .logo-box{width:30mm;height:22mm;border:1.4px dashed #7f9db8;border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#f7fbff;color:#587594;font-size:11px;text-align:center}
+  .logo-box img{width:100%;height:100%;object-fit:contain}
+  .company-head{text-align:center}.co-ar{font-size:17px;font-weight:800;color:#123b63;line-height:1.2}
+  .co-en{font-size:11px;color:#555;margin-top:2px}
+  .date-box{text-align:left;font-size:11px;color:#555;line-height:1.5}
+  .letter-title-ar{text-align:center;font-size:15px;font-weight:800;color:#123b63;margin:8px 0 3px;border-top:1.8px solid #123b63;border-bottom:1.8px solid #123b63;padding:5px 0}
+  .letter-title-en{text-align:center;font-size:11px;font-weight:700;color:#444;margin-bottom:8px}
+  .letter-body p{margin-bottom:6px;font-size:11.5px}
+  .mini-table,.items-table{width:100%;border-collapse:collapse}
+  .mini-table td{padding:4px 7px;border:1px solid #d7e1eb;font-size:11px;vertical-align:top}
+  .mini-table tr:nth-child(even) td{background:#f7fbff}
+  .lbl{font-weight:800;color:#123b63;width:18%}
+  .items-table{margin:8px 0 6px;font-size:11px}
+  .items-table th{background:#123b63;color:#fff;padding:6px 8px}
+  .items-table td{padding:6px 8px;border:1px solid #d7e1eb;vertical-align:top}
+  .items-table tr:nth-child(even) td{background:#f7fbff}
+  .items-table .total-row td{font-weight:800;background:#e7eef6}
+  .sig-section{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px}
+  .sig-box{border:1.4px dashed #a8b4c0;border-radius:8px;padding:10px;text-align:center}
+  .sig-box strong{display:block;margin-bottom:3px;font-size:11.5px}
+  .sig-box p{font-size:10.5px;color:#666;margin-bottom:5px}
+  canvas{border:1.2px solid #d0d9e4;border-radius:6px;cursor:crosshair;background:#fff;touch-action:none}
+  .clear-sig{font-size:.72rem;color:#c00;cursor:pointer;text-decoration:underline;display:block;margin-top:3px}
+  .fingerprint-box{width:88px;height:60px;border:1.5px dashed #1a6fc4;border-radius:8px;margin:8px auto;background:#fff}
+  .stamp-area{font-size:10px;color:#666;margin-top:3px}
+  .footer-note{text-align:center;margin-top:8px;font-size:10px;color:#555;border-top:1px solid #d7e1eb;padding-top:6px}
+  @page{size:A4 portrait;margin:10mm}
+  @media print{
+    .no-print{display:none !important}
+    .container{margin:0;padding:0;max-width:100%}
+    #letterSection{display:block !important}
+    #inputCard,#resultsCard,#domInputCard,#domResultsCard,.dev-footer,.mode-tabs,.lang-switch{display:none !important}
+    .letter-wrapper{box-shadow:none !important;padding:0 !important;border:none !important;border-radius:0 !important;margin:0 !important}
+    .letter-box{border:1px solid #000 !important;border-radius:0 !important;padding:8mm 10mm !important;width:100% !important;box-shadow:none !important}
+    canvas{border:1px solid #888 !important}
+    body{background:#fff !important}
+  }
+  @media(max-width:760px){
+    .grid,.grid-3,.sig-section{grid-template-columns:1fr}
+    .letter-header{grid-template-columns:1fr;gap:6px;text-align:center}
+    .date-box,.logo-box{text-align:center;margin:auto}
+    .lang-switch,.mode-tabs{justify-content:center !important}
+    .mode-tab{padding:10px 16px;font-size:.87rem}
+  }
+</style>
+</head>
+<body class="rtl">
+<div class="container">
+
+  <!-- Controls Row -->
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px" class="no-print">
+    <div class="lang-switch" style="margin-bottom:0">
+      <label for="uiLang" data-ar="لغة النموذج" data-en="Form Language">لغة النموذج</label>
+      <select id="uiLang" onchange="setUILanguage(this.value)">
+        <option value="ar">العربية</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+    <div class="mode-tabs">
+      <button class="mode-tab active" id="tabRegular" onclick="switchMode('regular')" data-ar="👔 موظف نظام العمل" data-en="👔 Labor Law Employee">👔 موظف نظام العمل</button>
+      <button class="mode-tab" id="tabDomestic" onclick="switchMode('domestic')" data-ar="🏠 عمالة منزلية" data-en="🏠 Domestic Worker">🏠 عمالة منزلية</button>
+    </div>
+  </div>
+
+  <h1 id="mainTitle" data-ar="نموذج حساب الحقوق والإجازات" data-en="End of Service & Leave Calculator">نموذج حساب الحقوق والإجازات</h1>
+  <p class="subtitle" id="mainSubtitle" data-ar="حساب المستحقات وتوليد خطاب استلام ثنائي اللغة — وفق نظام العمل السعودي" data-en="Calculate entitlements & generate a bilingual receipt letter — Saudi Labor Law">حساب المستحقات وتوليد خطاب استلام ثنائي اللغة — وفق نظام العمل السعودي</p>
+
+  <!-- ═══════════════════ REGULAR MODE ═══════════════════ -->
+  <div id="regularMode">
+    <div class="card no-print" id="inputCard">
+      <h2 data-ar="بيانات الموظف" data-en="Employee Information">بيانات الموظف</h2>
+      <div class="grid" style="margin-bottom:12px">
+        <div class="field"><label data-ar="اسم الموظف (عربي)" data-en="Employee Name (Arabic)">اسم الموظف (عربي)</label><input type="text" id="nameAr" data-ar-placeholder="أحمد محمد" data-en-placeholder="Ahmed Mohammed" placeholder="أحمد محمد"></div>
+        <div class="field"><label data-ar="اسم الموظف (إنجليزي)" data-en="Employee Name (English)">اسم الموظف (إنجليزي)</label><input type="text" id="nameEn" data-ar-placeholder="Ahmed Mohammed" data-en-placeholder="Ahmed Mohammed" placeholder="Ahmed Mohammed"></div>
+        <div class="field"><label data-ar="المسمى الوظيفي (عربي)" data-en="Job Title (Arabic)">المسمى الوظيفي (عربي)</label><input type="text" id="jobAr" data-ar-placeholder="محاسب" data-en-placeholder="Accountant" placeholder="محاسب"></div>
+        <div class="field"><label data-ar="المسمى الوظيفي (إنجليزي)" data-en="Job Title (English)">المسمى الوظيفي (إنجليزي)</label><input type="text" id="jobEn" data-ar-placeholder="Accountant" data-en-placeholder="Accountant" placeholder="Accountant"></div>
+        <div class="field"><label data-ar="الرقم الوظيفي" data-en="Employee ID">الرقم الوظيفي</label><input type="text" id="empId" data-ar-placeholder="EMP-001" data-en-placeholder="EMP-001" placeholder="EMP-001"></div>
+        <div class="field"><label data-ar="رقم الهوية / الإقامة" data-en="ID / Iqama Number">رقم الهوية / الإقامة</label><input type="text" id="idNum" data-ar-placeholder="10XXXXXXXXX" data-en-placeholder="10XXXXXXXXX" placeholder="10XXXXXXXXX"></div>
+      </div>
+      <h2 data-ar="بيانات الخدمة" data-en="Service Details">بيانات الخدمة</h2>
+      <div class="grid-3" style="margin-bottom:12px">
+        <div class="field"><label data-ar="تاريخ التعيين" data-en="Hiring Date">تاريخ التعيين</label><input type="date" id="startDate"></div>
+        <div class="field"><label data-ar="تاريخ انتهاء الخدمة / التسوية" data-en="End / Settlement Date">تاريخ انتهاء الخدمة / التسوية</label><input type="date" id="endDate"></div>
+        <div class="field">
+          <label data-ar="سبب الإنهاء" data-en="Termination Reason">سبب الإنهاء</label>
+          <select id="reason" onchange="onReasonChange()">
+            <option value="termination" data-ar="فصل من صاحب العمل" data-en="Termination by Employer">فصل من صاحب العمل</option>
+            <option value="resignation" data-ar="استقالة" data-en="Resignation">استقالة</option>
+            <option value="contract_end" data-ar="انتهاء العقد" data-en="Contract Expiry">انتهاء العقد</option>
+            <option value="mutual" data-ar="إنهاء بالتراضي" data-en="Mutual Agreement">إنهاء بالتراضي</option>
+            <option value="settlement" data-ar="تسوية مقدمة حتى تاريخ معين" data-en="Advance Settlement">تسوية مقدمة حتى تاريخ معين</option>
+            <option value="special_30" data-ar="اتفاق خاص — 30 يوم" data-en="Special 30-Day Agreement">اتفاق خاص — 30 يوم</option>
+          </select>
+          <div class="hint hint-orange" id="hintSettlement" data-ar="📋 الحقوق تُحتسب وفق شروط إنهاء العقد بالتراضي حتى تاريخ التسوية." data-en="📋 Benefits calculated using mutual termination rules up to the settlement date.">📋 الحقوق تُحتسب وفق شروط إنهاء العقد بالتراضي حتى تاريخ التسوية.</div>
+          <div class="hint hint-blue" id="hintSpecial30" data-ar="⚡ المكافأة = (الراتب ÷ 30) × 30 × سنوات الخدمة." data-en="⚡ Gratuity = (Salary ÷ 30) × 30 × Years of service.">⚡ المكافأة = (الراتب ÷ 30) × 30 × سنوات الخدمة.</div>
+        </div>
+        <div class="field"><label data-ar="الراتب الأساسي (ريال)" data-en="Basic Salary (SAR)">الراتب الأساسي (ريال)</label><input type="number" id="basicSalary" min="0" placeholder="5000"></div>
+        <div class="field"><label data-ar="بدل السكن (ريال)" data-en="Housing Allowance (SAR)">بدل السكن (ريال)</label><input type="number" id="housing" min="0" placeholder="1000"></div>
+        <div class="field"><label data-ar="بدل النقل (ريال)" data-en="Transport Allowance (SAR)">بدل النقل (ريال)</label><input type="number" id="transport" min="0" placeholder="500"></div>
+        <div class="field"><label data-ar="بدلات أخرى (ريال)" data-en="Other Allowances (SAR)">بدلات أخرى (ريال)</label><input type="number" id="otherAllowances" min="0" placeholder="0"></div>
+        <div class="field"><label data-ar="رصيد الإجازات المتبقي (يوم)" data-en="Remaining Leave Balance (Days)">رصيد الإجازات المتبقي (يوم)</label><input type="number" id="remainLeave" min="0" placeholder="15"></div>
+        <div class="field"><label data-ar="مستحقات أخرى (ريال)" data-en="Other Dues (SAR)">مستحقات أخرى (ريال)</label><input type="number" id="otherDues" min="0" placeholder="0"></div>
+      </div>
+      <h2 data-ar="بيانات الشركة" data-en="Company Details">بيانات الشركة</h2>
+      <div class="grid" style="margin-bottom:12px">
+        <div class="field"><label data-ar="اسم الشركة (عربي)" data-en="Company Name (Arabic)">اسم الشركة (عربي)</label><input type="text" id="companyAr" placeholder="شركة المثال"></div>
+        <div class="field"><label data-ar="اسم الشركة (إنجليزي)" data-en="Company Name (English)">اسم الشركة (إنجليزي)</label><input type="text" id="companyEn" placeholder="Example Co."></div>
+        <div class="field"><label data-ar="فترة الاستلام" data-en="Receipt Period">فترة الاستلام</label><input type="text" id="payPeriod" data-ar-placeholder="يناير - يونيو 2026" data-en-placeholder="January - June 2026" placeholder="يناير - يونيو 2026"></div>
+        <div class="field"><label data-ar="تاريخ الاستلام" data-en="Receipt Date">تاريخ الاستلام</label><input type="date" id="receiptDate"></div>
+        <div class="field"><label data-ar="شعار الشركة (اختياري)" data-en="Company Logo (Optional)">شعار الشركة (اختياري)</label><input type="file" id="logoInput" accept="image/*"></div>
+        <div class="field"><label data-ar="ملاحظات إضافية" data-en="Additional Notes">ملاحظات إضافية</label><input type="text" id="notes" data-ar-placeholder="اختياري" data-en-placeholder="Optional" placeholder="اختياري"></div>
+      </div>
+      <div class="btns"><button class="btn btn-primary" id="calcBtn" onclick="calculate()" data-ar="⚙️ احسب المستحقات" data-en="⚙️ Calculate Entitlements">⚙️ احسب المستحقات</button></div>
+    </div>
+    <div class="card no-print" id="resultsCard" style="display:none">
+      <h2 data-ar="نتائج الحساب" data-en="Calculation Results">نتائج الحساب</h2>
+      <div class="results" id="resultsBox"></div>
+      <div class="btns" style="margin-top:14px"><button class="btn btn-success" id="letterBtn" onclick="generateLetter()" data-ar="📄 توليد الخطاب" data-en="📄 Generate Letter">📄 توليد الخطاب</button></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ DOMESTIC MODE ═══════════════════ -->
+  <div id="domesticMode" style="display:none">
+    <div class="card no-print" id="domInputCard">
+      <!-- Info box -->
+      <div class="info-box">
+        <strong data-ar="📋 أسس احتساب حقوق العمالة المنزلية — المادة 22 من لائحة العمالة المنزلية" data-en="📋 Domestic Worker Rights Basis — Article 22 of the Domestic Workers Regulation">📋 أسس احتساب حقوق العمالة المنزلية — المادة 22 من لائحة العمالة المنزلية</strong>
+        <ul id="domesticInfoList">
+          <li data-ar="مكافأة نهاية الخدمة: راتب شهر كامل عن كل 4 سنوات متتالية" data-en="Gratuity: 1 full month salary per every 4 consecutive years">مكافأة نهاية الخدمة: راتب شهر كامل عن كل 4 سنوات متتالية</li>
+          <li data-ar="يُحتسب كسر السنوات بالتناسب (أشهر وأيام)" data-en="Partial years are calculated proportionally (months & days)">يُحتسب كسر السنوات بالتناسب (أشهر وأيام)</li>
+          <li data-ar="الإجازة السنوية: شهر كامل (30 يوم) بعد سنتين متتاليتين" data-en="Annual leave: 1 full month (30 days) after 2 consecutive years">الإجازة السنوية: شهر كامل (30 يوم) بعد سنتين متتاليتين</li>
+          <li data-ar="الإجازة المرضية: 30 يوم بأجر كامل في السنة بموجب تقرير طبي" data-en="Sick leave: 30 days full pay per year with medical report">الإجازة المرضية: 30 يوم بأجر كامل في السنة بموجب تقرير طبي</li>
+          <li data-ar="لا تسري أحكام نظام العمل السعودي العام على العمالة المنزلية — لائحة خاصة" data-en="General Saudi Labor Law does not apply — governed by a separate regulation">لا تسري أحكام نظام العمل السعودي العام على العمالة المنزلية — لائحة خاصة</li>
+          <li data-ar="تصفية كافة الحقوق خلال 7 أيام من تاريخ الإنهاء" data-en="All dues must be settled within 7 days of termination">تصفية كافة الحقوق خلال 7 أيام من تاريخ الإنهاء</li>
+        </ul>
+      </div>
+
+      <h2 data-ar="بيانات العامل المنزلي" data-en="Domestic Worker Information">بيانات العامل المنزلي</h2>
+      <div class="grid" style="margin-bottom:12px">
+        <div class="field"><label data-ar="اسم العامل (عربي)" data-en="Worker Name (Arabic)">اسم العامل (عربي)</label><input type="text" id="dNameAr" data-ar-placeholder="فاطمة علي" data-en-placeholder="Fatima Ali" placeholder="فاطمة علي"></div>
+        <div class="field"><label data-ar="اسم العامل (إنجليزي)" data-en="Worker Name (English)">اسم العامل (إنجليزي)</label><input type="text" id="dNameEn" data-ar-placeholder="Fatima Ali" data-en-placeholder="Fatima Ali" placeholder="Fatima Ali"></div>
+        <div class="field"><label data-ar="الجنسية" data-en="Nationality">الجنسية</label><input type="text" id="dNationality" data-ar-placeholder="إثيوبية" data-en-placeholder="Ethiopian" placeholder="إثيوبية"></div>
+        <div class="field"><label data-ar="رقم جواز السفر / الإقامة" data-en="Passport / Iqama No.">رقم جواز السفر / الإقامة</label><input type="text" id="dIdNum" placeholder="A12345678"></div>
+        <div class="field"><label data-ar="المهنة / نوع الخدمة" data-en="Occupation / Service Type">المهنة / نوع الخدمة</label>
+          <select id="dJobType">
+            <option value="عاملة منزلية" data-ar="عاملة منزلية" data-en="Housemaid">عاملة منزلية</option>
+            <option value="سائق خاص" data-ar="سائق خاص" data-en="Private Driver">سائق خاص</option>
+            <option value="مربية أطفال" data-ar="مربية أطفال" data-en="Nanny">مربية أطفال</option>
+            <option value="طاهي" data-ar="طاهي" data-en="Cook">طاهي</option>
+            <option value="حارس" data-ar="حارس" data-en="Security Guard">حارس</option>
+            <option value="بستاني" data-ar="بستاني" data-en="Gardener">بستاني</option>
+            <option value="أخرى" data-ar="أخرى" data-en="Other">أخرى</option>
+          </select>
+        </div>
+        <div class="field"><label data-ar="رقم عقد مساند (اختياري)" data-en="Musaned Contract No. (Optional)">رقم عقد مساند (اختياري)</label><input type="text" id="dContractNo" placeholder="MSN-XXXXXXX"></div>
+      </div>
+
+      <h2 data-ar="بيانات الخدمة" data-en="Service Details">بيانات الخدمة</h2>
+      <div class="grid-3" style="margin-bottom:12px">
+        <div class="field"><label data-ar="تاريخ بداية العقد" data-en="Contract Start Date">تاريخ بداية العقد</label><input type="date" id="dStartDate"></div>
+        <div class="field"><label data-ar="تاريخ انتهاء الخدمة" data-en="End of Service Date">تاريخ انتهاء الخدمة</label><input type="date" id="dEndDate"></div>
+        <div class="field">
+          <label data-ar="سبب إنهاء العقد" data-en="Termination Reason">سبب إنهاء العقد</label>
+          <select id="dReason">
+            <option value="employer_end" data-ar="إنهاء من صاحب العمل" data-en="Terminated by Employer">إنهاء من صاحب العمل</option>
+            <option value="worker_end" data-ar="إنهاء بإرادة العامل" data-en="Worker Resignation">إنهاء بإرادة العامل</option>
+            <option value="mutual" data-ar="إنهاء بالتراضي" data-en="Mutual Agreement">إنهاء بالتراضي</option>
+            <option value="contract_expiry" data-ar="انتهاء مدة العقد" data-en="Contract Expiry">انتهاء مدة العقد</option>
+          </select>
+        </div>
+        <div class="field"><label data-ar="الراتب الشهري (ريال)" data-en="Monthly Salary (SAR)">الراتب الشهري (ريال)</label><input type="number" id="dSalary" min="0" placeholder="1200"></div>
+        <div class="field"><label data-ar="رصيد الإجازات المتبقي (يوم)" data-en="Remaining Leave Balance (Days)">رصيد الإجازات المتبقي (يوم)</label><input type="number" id="dRemainLeave" min="0" placeholder="0"></div>
+        <div class="field"><label data-ar="مستحقات أخرى (ريال)" data-en="Other Dues (SAR)">مستحقات أخرى (ريال)</label><input type="number" id="dOtherDues" min="0" placeholder="0"></div>
+      </div>
+
+      <h2 data-ar="بيانات صاحب العمل" data-en="Employer Details">بيانات صاحب العمل</h2>
+      <div class="grid" style="margin-bottom:12px">
+        <div class="field"><label data-ar="اسم صاحب العمل (عربي)" data-en="Employer Name (Arabic)">اسم صاحب العمل (عربي)</label><input type="text" id="dEmployerAr" placeholder="محمد أحمد العلي"></div>
+        <div class="field"><label data-ar="اسم صاحب العمل (إنجليزي)" data-en="Employer Name (English)">اسم صاحب العمل (إنجليزي)</label><input type="text" id="dEmployerEn" placeholder="Mohammed Al-Ali"></div>
+        <div class="field"><label data-ar="تاريخ الاستلام" data-en="Receipt Date">تاريخ الاستلام</label><input type="date" id="dReceiptDate"></div>
+        <div class="field"><label data-ar="ملاحظات إضافية" data-en="Additional Notes">ملاحظات إضافية</label><input type="text" id="dNotes" data-ar-placeholder="اختياري" data-en-placeholder="Optional" placeholder="اختياري"></div>
+      </div>
+      <div class="btns"><button class="btn btn-domestic" id="dCalcBtn" onclick="calculateDomestic()" data-ar="⚙️ احسب مستحقات العامل المنزلي" data-en="⚙️ Calculate Domestic Worker Entitlements">⚙️ احسب مستحقات العامل المنزلي</button></div>
+    </div>
+
+    <div class="card no-print" id="domResultsCard" style="display:none">
+      <h2 data-ar="نتائج الحساب — العمالة المنزلية" data-en="Calculation Results — Domestic Worker">نتائج الحساب — العمالة المنزلية</h2>
+      <div class="results" id="domResultsBox"></div>
+      <div class="btns" style="margin-top:14px"><button class="btn btn-success" id="dLetterBtn" onclick="generateDomesticLetter()" data-ar="📄 توليد الخطاب" data-en="📄 Generate Letter">📄 توليد الخطاب</button></div>
+    </div>
+  </div>
+
+  <!-- Letter Section (shared) -->
+  <div id="letterSection">
+    <div class="card letter-wrapper">
+      <div class="btns no-print" style="margin-bottom:12px">
+        <button class="btn btn-print" id="printBtn" onclick="window.focus();window.print()" data-ar="🖨️ طباعة الخطاب" data-en="🖨️ Print Letter">🖨️ طباعة الخطاب</button>
+      </div>
+      <div class="letter-box" id="letterBox"></div>
+    </div>
+  </div>
+
+  <div class="dev-footer no-print">
+    ⚙️ تم تصميم وتطوير هذا النظام بواسطة <strong>Shady Nassef</strong> | <span style="direction:ltr;display:inline-block">Designed &amp; Developed by <strong>Shady Nassef</strong></span>
+  </div>
+</div>
+
+<script>
+let currentLang='ar', currentMode='regular';
+function v(id){return document.getElementById(id)?document.getElementById(id).value.trim():'';}
+function n(id){return parseFloat(document.getElementById(id)?document.getElementById(id).value:0)||0;}
+let logoDataUrl='';
+const li=document.getElementById('logoInput');
+if(li) li.addEventListener('change',e=>{const f=e.target.files[0];if(!f){logoDataUrl='';return;}const r=new FileReader();r.onload=ev=>logoDataUrl=ev.target.result;r.readAsDataURL(f);});
+
+function switchMode(mode){
+  currentMode=mode;
+  document.getElementById('regularMode').style.display=mode==='regular'?'block':'none';
+  document.getElementById('domesticMode').style.display=mode==='domestic'?'block':'none';
+  document.getElementById('letterSection').style.display='none';
+  document.getElementById('tabRegular').classList.toggle('active',mode==='regular');
+  document.getElementById('tabDomestic').classList.toggle('active',mode==='domestic');
+}
+
+function setUILanguage(lang){
+  currentLang=lang;
+  document.documentElement.lang=lang;
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  document.body.classList.remove('rtl','ltr');
+  document.body.classList.add(lang==='ar'?'rtl':'ltr');
+  document.querySelectorAll('[data-ar][data-en]').forEach(el=>{el.textContent=el.dataset[lang];});
+  document.querySelectorAll('input[data-ar-placeholder][data-en-placeholder]').forEach(el=>{el.placeholder=el.dataset[lang+'Placeholder'];});
+  document.querySelectorAll('#reason option[data-ar][data-en],#dJobType option[data-ar][data-en],#dReason option[data-ar][data-en]').forEach(el=>{el.textContent=el.dataset[lang];});
+  onReasonChange();
+  if(window._calc) renderResults();
+}
+
+function onReasonChange(){
+  const r=v('reason');
+  const hs=document.getElementById('hintSettlement');
+  const h3=document.getElementById('hintSpecial30');
+  hs.style.display=r==='settlement'?'block':'none';
+  h3.style.display=r==='special_30'?'block':'none';
+  hs.textContent=hs.dataset[currentLang];
+  h3.textContent=h3.dataset[currentLang];
+}
+
+function diffYMD(d1,d2){
+  let s=new Date(d1),e=new Date(d2);
+  let y=e.getFullYear()-s.getFullYear(),m=e.getMonth()-s.getMonth(),d=e.getDate()-s.getDate();
+  if(d<0){m--;d+=new Date(e.getFullYear(),e.getMonth(),0).getDate();}
+  if(m<0){y--;m+=12;}
+  if(d>=30){m+=Math.floor(d/30);d=d%30;}
+  if(m>=12){y+=Math.floor(m/12);m=m%12;}
+  return{years:y,months:m,days:d,totalYears:y+m/12+d/30};
+}
+function reasonAr(r){return{termination:'إنهاء عقد من صاحب العمل',resignation:'استقالة',contract_end:'انتهاء مدة العقد',mutual:'إنهاء بالتراضي',settlement:'تسوية مقدمة حتى تاريخ معين',special_30:'اتفاق خاص — 30 يوم'}[r]||r;}
+function reasonEn(r){return{termination:'Termination by Employer',resignation:'Resignation',contract_end:'Contract Expiry',mutual:'Mutual Agreement',settlement:'Advance Settlement',special_30:'Special 30-Day Agreement'}[r]||r;}
+function domReasonAr(r){return{employer_end:'إنهاء من صاحب العمل',worker_end:'إنهاء بإرادة العامل',mutual:'إنهاء بالتراضي',contract_expiry:'انتهاء مدة العقد'}[r]||r;}
+function domReasonEn(r){return{employer_end:'Terminated by Employer',worker_end:'Worker Resignation',mutual:'Mutual Agreement',contract_expiry:'Contract Expiry'}[r]||r;}
+function fd(d){if(!d)return'';return new Date(d).toLocaleDateString('ar-SA-u-ca-gregory',{year:'numeric',month:'long',day:'numeric'});}
+function fde(d){if(!d)return'';return new Date(d).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});}
+function money(x){return x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function durationText(diff){return currentLang==='ar'?`${diff.years} سنة و${diff.months} شهر و${diff.days} يوم`:`${diff.years} yr(s), ${diff.months} mo(s), ${diff.days} day(s)`;}
+
+// ══════════════════ REGULAR CALCULATE ══════════════════
+function calculate(){
+  const sd=v('startDate'),ed=v('endDate'),reason=v('reason');
+  if(!sd||!ed){alert(currentLang==='ar'?'يرجى إدخال تاريخ التعيين وتاريخ انتهاء الخدمة':'Please enter hiring date and end date');return;}
+  if(new Date(ed)<new Date(sd)){alert(currentLang==='ar'?'تاريخ الانتهاء يجب أن يكون بعد تاريخ التعيين':'End date must be after hiring date');return;}
+  const diff=diffYMD(sd,ed),totalYears=diff.totalYears;
+  const basic=n('basicSalary'),housing=n('housing'),transport=n('transport'),other=n('otherAllowances');
+  const lastSalary=basic+housing+transport+other,dailyRate=lastSalary/30;
+  let fullGratuity=0,gratuityRate=1,gratuityNote='',annualLeaveDays=21;
+  if(reason==='special_30'){
+    fullGratuity=dailyRate*30*totalYears;gratuityRate=1;annualLeaveDays=30;
+    gratuityNote=currentLang==='ar'?`احتساب خاص: (${lastSalary.toFixed(2)}÷30)×30×${totalYears.toFixed(6)} سنة`:`Special: (${lastSalary.toFixed(2)}÷30)×30×${totalYears.toFixed(6)} yrs`;
+  } else if(reason==='settlement'){
+    annualLeaveDays=totalYears>=5?30:21;
+    if(totalYears>=5){fullGratuity=(lastSalary/2*5)+(lastSalary*(totalYears-5));}
+    else if(totalYears>=1){fullGratuity=(lastSalary/2)*totalYears;}
+    if(totalYears<1){gratuityRate=0;gratuityNote=currentLang==='ar'?'لا مكافأة (أقل من سنة)':'No gratuity (< 1 year)';}
+    else{gratuityRate=1;gratuityNote=currentLang==='ar'?'تسوية مقدمة — مكافأة كاملة بشروط التراضي':'Advance settlement — full gratuity';}
+  } else if(reason==='resignation'){
+    annualLeaveDays=totalYears>=5?30:21;
+    if(totalYears>=5){fullGratuity=(lastSalary/2*5)+(lastSalary*(totalYears-5));}
+    else if(totalYears>=1){fullGratuity=(lastSalary/2)*totalYears;}
+    if(totalYears<2){gratuityRate=0;gratuityNote=currentLang==='ar'?'لا مكافأة (استقالة < سنتين)':'No gratuity (resignation < 2 yrs)';}
+    else if(totalYears<5){gratuityRate=1/3;gratuityNote=currentLang==='ar'?'ثلث المكافأة (2-5 سنوات)':'1/3 gratuity (2-5 yrs)';}
+    else if(totalYears<10){gratuityRate=2/3;gratuityNote=currentLang==='ar'?'ثلثا المكافأة (5-10 سنوات)':'2/3 gratuity (5-10 yrs)';}
+    else{gratuityRate=1;gratuityNote=currentLang==='ar'?'مكافأة كاملة':'Full gratuity';}
+  } else {
+    annualLeaveDays=totalYears>=5?30:21;
+    if(totalYears>=5){fullGratuity=(lastSalary/2*5)+(lastSalary*(totalYears-5));}
+    else if(totalYears>=1){fullGratuity=(lastSalary/2)*totalYears;}
+    if(totalYears<1){gratuityRate=0;gratuityNote=currentLang==='ar'?'لا مكافأة (< سنة)':'No gratuity (< 1 yr)';}
+    else{gratuityRate=1;gratuityNote=currentLang==='ar'?'مكافأة كاملة':'Full gratuity';}
+  }
+  const finalGratuity=fullGratuity*gratuityRate,remainLeave=n('remainLeave'),leavePay=remainLeave*dailyRate,otherDues=n('otherDues'),total=finalGratuity+leavePay+otherDues;
+  window._calc={diff,totalYears,lastSalary,dailyRate,fullGratuity,finalGratuity,gratuityRate,gratuityNote,annualLeaveDays,remainLeave,leavePay,otherDues,total,reason,type:'regular'};
+  renderResults();
+  document.getElementById('resultsCard').style.display='block';
+  document.getElementById('resultsCard').scrollIntoView({behavior:'smooth'});
+}
+
+function renderResults(){
+  const c=window._calc;if(!c||c.type!=='regular')return;
+  const bc=c.reason==='special_30'?'badge-blue':c.reason==='settlement'?'badge-orange':'badge-green';
+  const bt=currentLang==='ar'
+    ?(c.reason==='special_30'?'⚡ اتفاق خاص':c.reason==='settlement'?'📋 تسوية مقدمة':'م. 84/85/109 نظام العمل')
+    :(c.reason==='special_30'?'⚡ Special 30-day agreement':c.reason==='settlement'?'📋 Advance Settlement':'Art. 84/85/109 Saudi Labor Law');
+  const l=currentLang==='ar';
+  document.getElementById('resultsBox').innerHTML=`
+    <h3>${l?'ملخص الحساب':'Calculation Summary'}</h3>
+    <div class="result-row"><span>${l?'مدة الخدمة':'Service Duration'}</span><span>${durationText(c.diff)}</span></div>
+    <div class="result-row"><span>${l?'الراتب الشامل':'Gross Salary'}</span><span>${l?'':'SAR '}${money(c.lastSalary)}${l?' ريال':''}</span></div>
+    <div class="result-row"><span>${l?'الأجر اليومي':'Daily Rate'}</span><span>${l?'':'SAR '}${c.dailyRate.toFixed(4)}${l?' ريال':''}</span></div>
+    <div class="result-row"><span>${l?'طريقة الاستحقاق':'Entitlement Method'}</span><span>${c.gratuityNote}</span></div>
+    <div class="result-row"><span>${l?'مكافأة نهاية الخدمة':'End of Service Gratuity'}</span><span>${l?'':'SAR '}${money(c.finalGratuity)}${l?' ريال':''}</span></div>
+    <div class="result-row"><span>${l?'أساس الإجازة السنوية':'Annual Leave Basis'}</span><span>${c.annualLeaveDays} ${l?'يوم/سنة':'days/year'}</span></div>
+    <div class="result-row"><span>${l?`بدل رصيد الإجازات (${c.remainLeave} يوم)`:`Leave Balance Pay (${c.remainLeave} days)`}</span><span>${l?'':'SAR '}${money(c.leavePay)}${l?' ريال':''}</span></div>
+    ${c.otherDues>0?`<div class="result-row"><span>${l?'مستحقات أخرى':'Other Dues'}</span><span>${l?'':'SAR '}${money(c.otherDues)}${l?' ريال':''}</span></div>`:''}
+    <div class="result-row total"><span>${l?'إجمالي المستحقات':'Total Entitlements'}</span><span>${l?'':'SAR '}${money(c.total)}${l?' ريال':''}</span></div>
+    <span class="badge ${bc}">${bt}</span>`;
+}
+
+// ══════════════════ DOMESTIC CALCULATE ══════════════════
+function calculateDomestic(){
+  const sd=v('dStartDate'),ed=v('dEndDate');
+  if(!sd||!ed){alert(currentLang==='ar'?'يرجى إدخال تاريخ بداية وانتهاء الخدمة':'Please enter start and end dates');return;}
+  if(new Date(ed)<new Date(sd)){alert(currentLang==='ar'?'تاريخ الانتهاء يجب أن يكون بعد تاريخ البداية':'End date must be after start date');return;}
+
+  const diff=diffYMD(sd,ed);
+  const totalYears=diff.totalYears;
+  const salary=n('dSalary');
+  const dailyRate=salary/30;
+
+  // ═══ قاعدة المادة 22: شهر عن كل 4 سنوات ═══
+  // التطبيق الصحيح: totalYears/4 × راتب شهر
+  // كل 4 سنوات = شهر، وكسور السنوات بالتناسب
+  const gratuityYears = totalYears / 4;   // عدد الوحدات (كل وحدة = 4 سنوات)
+  let gratuity = 0;
+  let gratuityNote = '';
+  const dReason = v('dReason');
+
+  if(totalYears < 1){
+    gratuity = 0;
+    gratuityNote = currentLang==='ar'?'لا مكافأة (خدمة أقل من سنة)':'No gratuity (service < 1 year)';
+  } else {
+    gratuity = salary * gratuityYears;
+    gratuityNote = currentLang==='ar'
+      ? `${salary} ريال × (${totalYears.toFixed(4)} ÷ 4) = شهر عن كل 4 سنوات`
+      : `SAR ${salary} × (${totalYears.toFixed(4)} ÷ 4) = 1 month per 4 years`;
+  }
+
+  // الإجازة السنوية: 30 يوم بعد سنتين
+  const annualLeaveDays = totalYears >= 2 ? 30 : 0;
+  const remainLeave = n('dRemainLeave');
+  const leavePay = remainLeave * dailyRate;
+  const otherDues = n('dOtherDues');
+  const total = gratuity + leavePay + otherDues;
+
+  window._domCalc = {diff,totalYears,salary,dailyRate,gratuity,gratuityNote,annualLeaveDays,remainLeave,leavePay,otherDues,total,dReason};
+  renderDomesticResults();
+  document.getElementById('domResultsCard').style.display='block';
+  document.getElementById('domResultsCard').scrollIntoView({behavior:'smooth'});
+}
+
+function renderDomesticResults(){
+  const c=window._domCalc;if(!c)return;
+  const l=currentLang==='ar';
+  const ar=v('dReason');
+  document.getElementById('domResultsBox').innerHTML=`
+    <h3>${l?'ملخص الحساب — العمالة المنزلية':'Summary — Domestic Worker'}</h3>
+    <div class="result-row"><span>${l?'مدة الخدمة':'Service Duration'}</span><span>${durationText(c.diff)}</span></div>
+    <div class="result-row"><span>${l?'الراتب الشهري':'Monthly Salary'}</span><span>${l?'':'SAR '}${money(c.salary)}${l?' ريال':''}</span></div>
+    <div class="result-row"><span>${l?'الأجر اليومي':'Daily Rate'}</span><span>${l?'':'SAR '}${c.dailyRate.toFixed(4)}${l?' ريال':''}</span></div>
+    <div class="result-row"><span>${l?'أساس الاحتساب (م.22 لائحة العمالة المنزلية)':'Calculation Basis (Art.22 Domestic Reg.)'}</span><span>${c.gratuityNote}</span></div>
+    <div class="result-row"><span>${l?'مكافأة نهاية الخدمة':'End of Service Gratuity'}</span><span>${l?'':'SAR '}${money(c.gratuity)}${l?' ريال':''}</span></div>
+    <div class="result-row"><span>${l?'أساس الإجازة السنوية':'Annual Leave Basis'}</span><span>${c.annualLeaveDays} ${l?'يوم/سنة (بعد سنتين)':'days/year (after 2 yrs)'}</span></div>
+    <div class="result-row"><span>${l?`بدل رصيد الإجازات (${c.remainLeave} يوم)`:`Leave Balance Pay (${c.remainLeave} days)`}</span><span>${l?'':'SAR '}${money(c.leavePay)}${l?' ريال':''}</span></div>
+    ${c.otherDues>0?`<div class="result-row"><span>${l?'مستحقات أخرى':'Other Dues'}</span><span>${l?'':'SAR '}${money(c.otherDues)}${l?' ريال':''}</span></div>`:''}
+    <div class="result-row total"><span>${l?'إجمالي المستحقات':'Total Entitlements'}</span><span>${l?'':'SAR '}${money(c.total)}${l?' ريال':''}</span></div>
+    <span class="badge badge-brown">${l?'🏠 المادة 22 — لائحة العمالة المنزلية':'🏠 Article 22 — Domestic Workers Regulation'}</span>`;
+}
+
+// ══════════════════ GENERATE REGULAR LETTER ══════════════════
+function generateLetter(){
+  const c=window._calc;if(!c){alert(currentLang==='ar'?'يرجى الحساب أولاً':'Please calculate first');return;}
+  const nameAr=v('nameAr'),nameEn=v('nameEn'),jobAr=v('jobAr'),jobEn=v('jobEn'),empId=v('empId'),idNum=v('idNum'),companyAr=v('companyAr'),companyEn=v('companyEn'),payPeriod=v('payPeriod'),receiptDate=v('receiptDate'),startDate=v('startDate'),endDate=v('endDate'),notes=v('notes');
+  const logoHtml=logoDataUrl?`<div class="logo-box"><img src="${logoDataUrl}" alt="logo"></div>`:`<div class="logo-box">Logo</div>`;
+  const isSpecial=c.reason==='special_30',isSettlement=c.reason==='settlement';
+  const legalRef=isSpecial?'بناءً على الاتفاق الداخلي الخاص (30 يوم من تاريخ التعيين)':isSettlement?'تسوية مقدمة وفق اتفاق الطرفين بشروط إنهاء العقد بالتراضي':'وفق أحكام المادة 84، 85، 109 من نظام العمل السعودي';
+  const legalRefEn=isSpecial?'Based on special internal agreement (30 days from hiring date)':isSettlement?'Advance settlement — mutual agreement terms':'As per Saudi Labor Law Articles 84, 85, and 109';
+  const titleAr=isSettlement?'إقرار تسوية مقدمة للحقوق والإجازات':'إقرار باستلام الحقوق والإجازات';
+  const titleEn=isSettlement?'Advance Settlement Acknowledgment':'Acknowledgment of Receipt of Benefits & Leave';
+  document.getElementById('letterBox').innerHTML=`
+    <div class="letter-header">
+      ${logoHtml}
+      <div class="company-head"><div class="co-ar">${companyAr||'اسم الشركة'}</div><div class="co-en">${companyEn||'Company Name'}</div></div>
+      <div class="date-box"><div>${fd(receiptDate)}</div><div style="direction:ltr">${fde(receiptDate)}</div></div>
+    </div>
+    <div class="letter-title-ar">${titleAr}</div>
+    <div class="letter-title-en">${titleEn}</div>
+    <div class="letter-body">
+      <p>أقر أنا الموظف الموقّع أدناه باستلام كامل مستحقاتي وحقوقي، ${legalRef}.</p>
+      <p style="direction:ltr;text-align:left">I confirm receiving all my entitled benefits, ${legalRefEn}.</p>
+      <table class="mini-table" style="margin:7px 0">
+        <tr><td class="lbl">الاسم / Name</td><td colspan="3">${nameAr||'-'} | ${nameEn||'-'}</td></tr>
+        <tr><td class="lbl">الرقم الوظيفي</td><td>${empId||'-'}</td><td class="lbl">الهوية / ID</td><td>${idNum||'-'}</td></tr>
+        <tr><td class="lbl">المسمى / Title</td><td>${jobAr||'-'} | ${jobEn||'-'}</td><td class="lbl">مدة الخدمة</td><td>${durationText(c.diff)}</td></tr>
+        <tr><td class="lbl">تاريخ التعيين</td><td>${fd(startDate)}</td><td class="lbl">${isSettlement?'تاريخ التسوية':'تاريخ الانتهاء'}</td><td>${fd(endDate)}</td></tr>
+        <tr><td class="lbl">سبب الإنهاء</td><td>${reasonAr(c.reason)} | ${reasonEn(c.reason)}</td><td class="lbl">فترة الاستلام</td><td>${payPeriod||'-'}</td></tr>
+      </table>
+      <table class="items-table">
+        <thead><tr><th>البيان | Description</th><th>التفاصيل | Details</th><th>المبلغ | Amount (SAR)</th></tr></thead>
+        <tbody>
+          <tr><td>مكافأة نهاية الخدمة<br><small>End of Service Gratuity</small></td><td>${c.gratuityNote}</td><td><strong>${money(c.finalGratuity)}</strong></td></tr>
+          <tr><td>بدل رصيد الإجازات<br><small>Accrued Leave Pay</small></td><td>${c.remainLeave} يوم × ${c.dailyRate.toFixed(2)} ريال<br><small>${c.annualLeaveDays} يوم/سنة</small></td><td><strong>${money(c.leavePay)}</strong></td></tr>
+          ${c.otherDues>0?`<tr><td>مستحقات أخرى<br><small>Other Dues</small></td><td>${notes||'—'}</td><td><strong>${money(c.otherDues)}</strong></td></tr>`:''}
+          <tr class="total-row"><td colspan="2"><strong>إجمالي المستحقات | Total Benefits</strong></td><td><strong>${money(c.total)} ريال</strong></td></tr>
+        </tbody>
+      </table>
+      <p>أُقرّ بعدم وجود أي مطالبات مالية أخرى تجاه الشركة فيما يخص مدة خدمتي.</p>
+      <p style="direction:ltr;text-align:left">I confirm having no further financial claims regarding my service period.</p>
+    </div>
+    <div class="sig-section">
+      <div class="sig-box">
+        <strong>توقيع الموظف | Employee Signature</strong>
+        <p>${nameAr||'-'} | ${nameEn||'-'}</p>
+        <canvas id="sigCanvas" width="240" height="55"></canvas>
+        <span class="clear-sig no-print" onclick="clearSig()">مسح / Clear</span>
+        <div class="stamp-area">${fd(receiptDate)} | ${fde(receiptDate)}</div>
+      </div>
+      <div class="sig-box">
+        <strong>بصمة الموظف | Fingerprint</strong>
+        <div class="fingerprint-box"></div>
+        <div class="stamp-area">Fingerprint Area | مكان البصمة</div>
+      </div>
+    </div>
+    <div class="footer-note">${legalRef}<br>${legalRefEn}</div>`;
+  document.getElementById('letterSection').style.display='block';
+  document.getElementById('letterSection').scrollIntoView({behavior:'smooth'});
+  setTimeout(initSigPad,150);
+}
+
+// ══════════════════ GENERATE DOMESTIC LETTER ══════════════════
+function generateDomesticLetter(){
+  const c=window._domCalc;if(!c){alert(currentLang==='ar'?'يرجى الحساب أولاً':'Please calculate first');return;}
+  const dNameAr=v('dNameAr'),dNameEn=v('dNameEn'),dNat=v('dNationality'),dId=v('dIdNum'),dJob=v('dJobType'),dContract=v('dContractNo'),dEmployerAr=v('dEmployerAr'),dEmployerEn=v('dEmployerEn'),dReceiptDate=v('dReceiptDate'),dStartDate=v('dStartDate'),dEndDate=v('dEndDate'),dNotes=v('dNotes');
+  document.getElementById('letterBox').innerHTML=`
+    <div class="letter-header">
+      <div class="logo-box">🏠</div>
+      <div class="company-head">
+        <div class="co-ar">إقرار استلام مستحقات عمالة منزلية</div>
+        <div class="co-en">Domestic Worker Benefits Receipt Acknowledgment</div>
+      </div>
+      <div class="date-box"><div>${fd(dReceiptDate)}</div><div style="direction:ltr">${fde(dReceiptDate)}</div></div>
+    </div>
+    <div class="letter-title-ar">إقرار باستلام حقوق ومستحقات عامل / عاملة الخدمة المنزلية</div>
+    <div class="letter-title-en">Acknowledgment of Receipt — Domestic Worker End of Service Entitlements</div>
+    <div class="letter-body">
+      <p>أقر أنا العامل/ة المنزلي/ة الموقّع أدناه باستلام كافة مستحقاتي ومكافأة نهاية الخدمة المحتسبة وفق <strong>المادة 22 من لائحة العمالة المنزلية</strong> الصادرة عن وزارة الموارد البشرية والتنمية الاجتماعية.</p>
+      <p style="direction:ltr;text-align:left">I, the undersigned domestic worker, confirm receiving all my entitlements and end-of-service gratuity calculated per <strong>Article 22 of the Domestic Workers Regulation</strong> issued by the Ministry of Human Resources and Social Development.</p>
+      <table class="mini-table" style="margin:7px 0">
+        <tr><td class="lbl">اسم العامل / Name</td><td colspan="3">${dNameAr||'-'} | ${dNameEn||'-'}</td></tr>
+        <tr><td class="lbl">الجنسية / Nationality</td><td>${dNat||'-'}</td><td class="lbl">الهوية / ID</td><td>${dId||'-'}</td></tr>
+        <tr><td class="lbl">المهنة / Occupation</td><td colspan="3">${dJob||'-'}</td></tr>
+        <tr><td class="lbl">رقم العقد / Contract</td><td>${dContract||'-'}</td><td class="lbl">مدة الخدمة</td><td>${durationText(c.diff)}</td></tr>
+        <tr><td class="lbl">بداية الخدمة</td><td>${fd(dStartDate)}</td><td class="lbl">انتهاء الخدمة</td><td>${fd(dEndDate)}</td></tr>
+        <tr><td class="lbl">سبب الإنهاء</td><td colspan="3">${domReasonAr(c.dReason)} | ${domReasonEn(c.dReason)}</td></tr>
+        <tr><td class="lbl">صاحب العمل</td><td colspan="3">${dEmployerAr||'-'} | ${dEmployerEn||'-'}</td></tr>
+      </table>
+      <table class="items-table">
+        <thead><tr><th>البيان | Description</th><th>التفاصيل | Details</th><th>المبلغ | Amount (SAR)</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>مكافأة نهاية الخدمة<br><small>End of Service Gratuity</small></td>
+            <td>${c.gratuityNote}<br><small>م.22 لائحة العمالة المنزلية | Art.22 Domestic Workers Reg.</small></td>
+            <td><strong>${money(c.gratuity)}</strong></td>
+          </tr>
+          <tr>
+            <td>بدل رصيد الإجازات<br><small>Accrued Leave Pay</small></td>
+            <td>${c.remainLeave} يوم × ${c.dailyRate.toFixed(2)} ريال<br><small>أساس: 30 يوم/سنة (بعد سنتين)</small></td>
+            <td><strong>${money(c.leavePay)}</strong></td>
+          </tr>
+          ${c.otherDues>0?`<tr><td>مستحقات أخرى<br><small>Other Dues</small></td><td>${dNotes||'—'}</td><td><strong>${money(c.otherDues)}</strong></td></tr>`:''}
+          <tr class="total-row"><td colspan="2"><strong>إجمالي المستحقات | Total Benefits</strong></td><td><strong>${money(c.total)} ريال</strong></td></tr>
+        </tbody>
+      </table>
+      <p>أُقرّ بعدم وجود أي مطالبات مالية أخرى تجاه صاحب العمل فيما يتعلق بفترة خدمتي، وقد استلمت كامل المستحقات المبينة أعلاه.</p>
+      <p style="direction:ltr;text-align:left">I confirm having no further financial claims against the employer regarding my service period. I have received all entitlements listed above.</p>
+    </div>
+    <div class="sig-section">
+      <div class="sig-box">
+        <strong>توقيع العامل المنزلي | Worker Signature</strong>
+        <p>${dNameAr||'-'} | ${dNameEn||'-'}</p>
+        <canvas id="sigCanvas" width="240" height="55"></canvas>
+        <span class="clear-sig no-print" onclick="clearSig()">مسح / Clear</span>
+        <div class="stamp-area">${fd(dReceiptDate)} | ${fde(dReceiptDate)}</div>
+      </div>
+      <div class="sig-box">
+        <strong>بصمة العامل | Fingerprint</strong>
+        <div class="fingerprint-box"></div>
+        <div class="stamp-area">مكان البصمة | Fingerprint Area</div>
+        <div class="stamp-area">توقيع صاحب العمل | Employer Signature</div>
+      </div>
+    </div>
+    <div class="footer-note">المادة 22 من لائحة العمالة المنزلية — القرار الوزاري رقم 40676 بتاريخ 17/03/1445هـ<br>Article 22, Domestic Workers Regulation — Ministerial Decision No. 40676 dated 17/03/1445H</div>`;
+  document.getElementById('letterSection').style.display='block';
+  document.getElementById('letterSection').scrollIntoView({behavior:'smooth'});
+  setTimeout(initSigPad,150);
+}
+
+function initSigPad(){
+  const canvas=document.getElementById('sigCanvas');if(!canvas)return;
+  const ctx=canvas.getContext('2d');let drawing=false;
+  function pos(e){const r=canvas.getBoundingClientRect();const s=e.touches?e.touches[0]:e;return{x:s.clientX-r.left,y:s.clientY-r.top};}
+  canvas.onmousedown=canvas.ontouchstart=e=>{drawing=true;const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);e.preventDefault();};
+  canvas.onmousemove=canvas.ontouchmove=e=>{if(!drawing)return;const p=pos(e);ctx.lineTo(p.x,p.y);ctx.strokeStyle='#123b63';ctx.lineWidth=1.8;ctx.lineCap='round';ctx.stroke();e.preventDefault();};
+  canvas.onmouseup=canvas.ontouchend=()=>drawing=false;
+  canvas.onmouseleave=()=>drawing=false;
+}
+function clearSig(){const c=document.getElementById('sigCanvas');if(c)c.getContext('2d').clearRect(0,0,c.width,c.height);}
+setUILanguage('ar');
+</script>
+</body>
+</html>
